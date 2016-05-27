@@ -6,7 +6,6 @@
 
 import sys
 import os
-import plot_ANSS_seismicity
 import numpy as np
 from array import array
 
