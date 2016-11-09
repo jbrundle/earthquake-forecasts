@@ -9,6 +9,8 @@ import os
 import numpy as np
 from array import array
 
+from EQUtilities import *
+
     #.....................................
     #
     # Read pre-defined locations file
@@ -39,7 +41,7 @@ for line in input_file:
     i+=1
     line    = line.strip()
     items   = line.split(',')
-#   print items  # For testing purposes
+
     items_array = np.asarray(items)
 
     Location_file[i]   = items_array[0]
@@ -60,10 +62,39 @@ input_file.close()  # Put the file pointer back at top
 
     #.....................................
     
-MagLo = 6.0 # Initial default minimum magnitude
+MagLo = 5.0 # Initial default minimum magnitude
 
     #.....................................
 
+#   Assume initially that the local region is a circle
+
+completeness_mag    =   2.99
+Circle_Location     =   'None'
+Circle_Lat          =   0.0
+Circle_Lng          =   0.0
+Radius_float        =   0.0
+earthquake_depth    =   1000.0
+region_type         =   'Circle'
+
+settings_params     =   []
+settings_params.append(region_type)
+settings_params.append(completeness_mag)
+settings_params.append(earthquake_depth)
+settings_params.append(Circle_Location)
+settings_params.append(Circle_Lat)
+settings_params.append(Circle_Lng)
+settings_params.append(Radius_float)
+
+save_settings(settings_params)
+
+settings_params = get_settings()
+
+    #.....................................
+
+#   Set the intial values of completeness_mag and Circle_Location here
+#   Write these to a file "current_settings.txt"
+
+    #.....................................
 print ' '
 print 'Downloading default data set'
 os.system("python generate_catalog_file.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
@@ -87,6 +118,14 @@ while rmenu != 'Z':
     print '     D: Plot EQ Magnitude vs. Time'
     print '     E: Plot EQ Epicenters on a Map'
     print '     F: Plot NTW Earthquake Forecast on a Map'
+    print '     G: Plot Gutenberg-Richter Relation for an Inter-Earthquake Sequence'
+    print '     H: Plot Earthquake NowCast for Regional Area'
+    print '     I: Plot Earthquake NowCast for Circle within Regional Area'
+    print '     J: Plot Earthquake NowCast for Polygon within Regional Area'
+    print '     K: Plot Proxy Strain vs. Time in the Region'
+    print '     L: Plot Proxy Strain vs. Time in the Circle'
+    print '     M: Plot Earthquake Forecast vs. Time in the Circle'
+    print '     N: Plot Filtered Earthquake NowCast for Regional Area (Same as H but Log10-Linear'
     print ' '
     print '     Z: Get Me Out of Here!'
     print ' '
@@ -94,7 +133,8 @@ while rmenu != 'Z':
     print '     For a true choice will bring you joy,'
     print '     but a poor choice will take it from you...)'
     print ' '
-    rmenu = raw_input( ) 
+    rmenu = ''
+    rmenu = raw_input("Enter a Choice: \n") 
     print ' '
 
     #.....................................
@@ -120,12 +160,42 @@ while rmenu != 'Z':
         print 'Choice F: Plot NTW EQ Forecast on a Map'
         os.system("python contour_eq_probs.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
 
+    if rmenu == 'G':
+        print 'Choice G: Plot Gutenberg-Richter relation (Cumulative frequency-magnitude)'
+        os.system("python plot_GR_relation.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
 
+    if rmenu == 'H':
+        print 'Choice H: Plot Earthquake EPS in Region (Defined by histogram of small earthquake counts)'
+        os.system("python plot_EQ_EPS_Region.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
+
+    if rmenu == 'I':
+        print 'Choice I: Plot Earthquake EPS in Circle within Region (Defined by histogram of small earthquake counts)'
+        os.system("python plot_EQ_EPS_Region_Circle.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
+
+    if rmenu == 'J':
+        print 'Choice J: Plot Earthquake EPS in Polygon within Region (Defined by histogram of small earthquake counts)'
+        os.system("python plot_EQ_EPS_Region_Polygon.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
+
+    if rmenu == 'K':
+        print 'Choice K: Plot Proxy Strain vs. Time in the Region'
+        os.system("python plot_proxy_strain_vs_time_region.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
+
+    if rmenu == 'L':
+        print 'Choice L: Plot Proxy Strain vs. Time in the Circle'
+        os.system("python plot_proxy_strain_vs_time_circle.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
+
+    if rmenu == 'M':
+        print 'Choice M: Plot Forecast in Circle within Region (Defined by histogram of small earthquake counts)'
+        os.system("python plot_Forecast_EPS_Region_Circle.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
+
+    if rmenu == 'N':
+        print 'Choice N: Plot Filtered Earthquake EPS in Region (Defined by histogram of small earthquake counts)'
+        os.system("python plot_Filtered_EQ_EPS_Region.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
 
     if rmenu == 'A':
         print 'Choice A: Enter the map and plot parameters (Default is California)'
         print ' '
-        print ' Enter a different predefined location? (y/n)'
+        print ' Enter a different predefined location or large earthquake magnitude? (y/n)'
         respl = raw_input()
         if respl == 'y':
     #......................................
@@ -165,7 +235,7 @@ while rmenu != 'Z':
         if respm == 'y':
             print ' '
             print ' Current minimum magnitude is: ', MagLo
-            print ' Enter new minimum magnitude (must be M>5.5):'
+            print ' Enter new minimum magnitude (must be M>5.0):'
             MagLo = raw_input()
 
         if respl !='y':
@@ -187,7 +257,7 @@ while rmenu != 'Z':
                 Location    = items[4]
 
 
-        print 'Downloading catalog data for new location'
+        print 'Downloading catalog data for new location and/or with new minimum magnitude'
         os.system("python generate_catalog_file.py {0} {1} {2} {3} {4} {5}".format(NELat, NELng, SWLat, SWLng, MagLo, Location))
 
 

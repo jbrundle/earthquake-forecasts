@@ -2,9 +2,9 @@
 
 ##############################################################################
 
-#         Code plots earthquake data for magnitude vs. time
+#         Code plots a rectangular map with the earthquakes larger than 5.5 on it
 
-#         Usage:   python plot_ANSS_seismicity.py NELat NELng SWLat SWLng MagLo
+#         Usage:   python plot_proxy_stress_vs_time_region.py NELat NELng SWLat SWLng MagLo
 #
 #         Where:    Latitude in degrees
 #                   Longitude in degrees
@@ -17,16 +17,6 @@
 #sys.path.reverse()
 
 import sys
-import matplotlib
-import numpy as np
-from mpl_toolkits.basemap import Basemap
-from array import array
-import matplotlib.pyplot as plt
-
-import urllib
-import datetime
-import dateutil.parser
-
 import EQMethods
 
 ##############################################################################
@@ -41,9 +31,7 @@ def main(argv=None):
     MagLo       = float(sys.argv[5])
     Location    = str(sys.argv[6])  
 
-#   EQMethods.get_catalog(NELat, NELng, SWLat, SWLng, MagLo)
-
-    EQMethods.magtime(NELat, NELng, SWLat, SWLng, MagLo, Location)
+    EQMethods.proxy_strain_region(NELat, NELng, SWLat, SWLng, MagLo, Location)
 
 #
 if __name__ == "__main__": 

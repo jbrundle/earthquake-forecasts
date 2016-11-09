@@ -21,7 +21,11 @@ import requests
 from urllib2 import Request, urlopen, URLError
 import time
 from itertools import product
+
 import datetime
+import dateutil.parser
+
+import contours2kml as ckp
 
 Location = 'California'
 
@@ -96,9 +100,20 @@ todays_date          =  datetime.date.today().strftime("%B %d, %Y")
 print ' '
 print ' Todays Time and Date: ', todays_time_and_date
 
+    #   Standard resolution
 
 latres = 0.5
 lonres = 0.5
+
+    #   Higher resolution
+
+latres = 0.2
+lonres = 0.2
+
+#latres = 0.5
+#lonres = 0.5
+
+    #   Standard resolution
 
 if Location == 'World':
     latres=2.0
@@ -138,6 +153,11 @@ h = len(c)
 
 probability = np.zeros((nlat,nlon))
 
+probability_array   = np.zeros(h)
+latitude_array      = np.zeros(h)
+longitude_array     = np.zeros(h)
+
+
 ix=0
 iy=0
           
@@ -166,6 +186,9 @@ for calls in range(h):
         probs = probs.translate(None, '%')
         probs = probs[probs.find('<prob>')+6:probs.find('</prob>')]
         probability[ix][iy] = probs
+        longitude_array[calls],latitude_array[calls] = c[calls]
+        probability_array[calls] = probs
+#       print latitude_array[calls], longitude_array[calls],probability_array[calls]
         ix += 1
         ix = ix%(nlat)
         if ix == 0:
@@ -249,6 +272,13 @@ if lower_limit_flag == 'y':
 
 cs = plt.contourf(x, y, probability, levels, cmap = 'jet', latlon='True', alpha=0.40)
 
+fname_out = "Forecast-Contours.kml"
+alpha_kml = 0.5
+top_level = 1.0
+bottom_level = 0.0
+
+kml_str = ckp.kml_from_contours(cset=cs, colorbarname='map_colorbar.png', open_file=True, close_file=True, contour_labels=None, top=top_level, bottom=bottom_level, fname_out=fname_out, alpha_kml=alpha_kml)
+
 plt.colorbar(ticks=ticklevels, shrink=0.55)
 
 Sup_title_text = 'Earthquake Probability (%) for M>' + Forecast_Mag + '\nWithin ' + Months + ' months and ' + Forecast_Rad + ' km Radial Distance in ' + Location
@@ -267,6 +297,35 @@ print '     .......................................'
 
                  
 plt.show()
+
+    #   Write the probabilities into a .txt file for importing into a spreadsheet
+
+
+Spreadsheet_Name = 'Probabilities_for_' + Location + '_M>' + Forecast_Mag + '_' + Months + 'Months' + Forecast_Rad + 'km_' + '%s'  + '.txt'
+spreadsheet_file = open(Spreadsheet_Name % datetime.date.today().strftime("%F"), "w")
+
+entry1 = 'Latitude'
+entry2 = 'Longitude'
+entry3 = 'Prob (%)'
+spreadsheet_file.write("%s\t%s\t%s\n" % (entry1,entry2,entry3))
+
+entry1 = ''
+entry2 = ''
+entry3 = ''
+spreadsheet_file.write("%s\t%s\t%s\n" % (entry1,entry2,entry3))
+
+ix=0
+iy=0
+
+for calls in range(h):
+    lon     =   str(longitude_array[calls])
+    lat     =   str(latitude_array[calls])
+    prob    =   str(probability_array[calls])
+    spreadsheet_file.write("%s\t%s\t%s\n" % (lat,lon,prob))
+
+spreadsheet_file.close()
+
+
 
 
 

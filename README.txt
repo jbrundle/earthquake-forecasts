@@ -28,10 +28,30 @@
     from www.openhazards.com/data to download and contour earthquake probabilities
     in the selected region 
 
-7.  locations.txt:  is a csv file containing pre-defined map boundaries with a label.
+7.  plot_GR_relation.py:  is a code to plot the frequency-magnitude relation for 
+    small earthquakes that occur between large earthquakes.  Either an individual 
+    earthquake cycle or a multiple cycles can be shown.
+
+8.  histogram_eps_region.py:  is a method to plot the regional cumulative distribution function
+    the Earthquake Potential Score, the histogram (bins) of small earthquakes between large
+    earthquakes, a Poisson distribution with the same mean as the statistics, and
+    a thermometer representation of the current value of EPS.
+
+9.  histogram_eps_region_circle.py:  is a method to plot the cumulative distribution function for
+    regional earthquake cycles and the Earthquake Potential Score within a circular region, 
+    the histogram (bins) of small     earthquakes between large earthquakes, a Poisson 
+    distribution with the same mean as the statistics, and a thermometer representation
+    of the current value of EPS within the circular region.
+
+10. locations.txt:  is a csv file containing pre-defined map boundaries with a label.
     The default is California.  Each line of the file has the format:
 
     [ Location Name (string), S-most Lat (float), N-most Lat (float), W-most Lng (float), E-most Lng (float) ]
+
+11. circlelocations.txt:  is a csv file containing the pre-defined circular regions, with a label.
+    The default is None.  Each line of the file has the format:
+
+    [ Location Name (string), Latitude of circle center in deg (float), Longitude of circle center in deg (float), Radius of circle in km (float) ]
 
     To enter more pre-defined locations, edit this file with a text editor.
 
@@ -40,6 +60,8 @@
     *** Note that  an http error 500 will occur if values are entered that include a Lng or Lat of 0.0 ***
     *** Also, there should be no empty lines at the bottom of the location file.  If there are, you will
         see an error: "IndexError: index 1 is out of bounds for axis 0 with size 1"
+
+9.  EQUtilities.py:  Is a set of methods that fit lines and curves to data, among other functions
 
 PYTHON RELATED PACKAGES INSTALLED ON MY MAC VIA MACPORTS:
 
@@ -51,6 +73,34 @@ py27-pil:                   py27-pil @1.1.7_7 (python, graphics)  Python Imaging
 Note:  A bug in python sometimes leads to the appearance of files with names such as .goutputstream*  These can be removed using the command sudo rm .goutputstream* -v
 
 CHANGE LOG:  
+
+New Features in Version 1.10:
+
+-   Added  new methods for Nowcasting earthquakes, where we count the number of small earthquakes since the last large earthquake, and use the 
+	Cumulative Distribution Function (CDF) for regional earthquakes to assign and Earthquake Potential Score (EPS).  There are two types of EPS.
+	one for the regional area listed in the file locations.txt, and one for the circular regions listed in circlelocations.txt
+
+New Features in Version 1.8:
+
+-   Added the automatic production of forecast spreadsheet to the contour_eq_probs.py code.  So after a contoured probability plot is created, the
+        method produces a spreadsheet that lists the latitude, longitude, and probability (%) for the forecast numbers.
+
+New Features in Version 1.7:
+
+-   Added curve fitting to Frequency-Magnitude method that plots FM statistics for the small earthquakes between large earthquakes.
+        The curve is a Fisher-droplet model common in stat mech (i.e., a power law with exponential cutoff).
+
+New Features in Version 1.6:
+
+-   Bug fixes.  Added Frequency-Magnitude statistics and plotting capability
+
+New Features in Version 1.5:
+
+-  Added frequency magnitude curves for small earthquakes between large earthquake cycles
+
+New Features in Version 1.4:
+
+-  Bug fixes and additional functionality 
 
 New Features in Version 1.3:
 

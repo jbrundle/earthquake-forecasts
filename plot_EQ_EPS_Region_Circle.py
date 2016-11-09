@@ -2,7 +2,7 @@
 
 ##############################################################################
 
-#         Code plots earthquake data for magnitude vs. time
+#         Code plots Gutenberg-Richter relation for cumulative frequency-magnitude
 
 #         Usage:   python plot_ANSS_seismicity.py NELat NELng SWLat SWLng MagLo
 #
@@ -43,7 +43,7 @@ def main(argv=None):
 
 #   EQMethods.get_catalog(NELat, NELng, SWLat, SWLng, MagLo)
 
-    EQMethods.magtime(NELat, NELng, SWLat, SWLng, MagLo, Location)
+    EQMethods.histogram_eps_region_circle(NELat, NELng, SWLat, SWLng, MagLo, Location)
 
 #
 if __name__ == "__main__": 
