@@ -3318,16 +3318,20 @@ def get_circle_data(Location):
                 circle_location_flag = 1
 
         if circle_location_flag == 0 and counter == number_circle_locations:
-            print ' '
-            print '     Invalid location, try again...'
-            print ' '
-            print ' '
             circle_location_flag = 1
             settings_params = default_settings_params
             Circle_Location = settings_params[4]
             Circle_Lat      = float(settings_params[5])
             Circle_Lng      = float(settings_params[6])
             Radius_float    = float(settings_params[7])
+            print ' '
+            print '     Invalid location, try again...'
+            print ' '
+            print '     (Press any key to continue)'
+            resp = raw_input()
+            print ' '
+
+
 
 #   Write new value of Circle_Location to "Settings_File.txt"
 
@@ -3451,13 +3455,15 @@ def get_polygon_data(Location):
                     settings_params.append(vertex_points[j])
 
         if polygon_location_flag == 0 and counter >= number_polygon_locations:
-            print ' '
-            print '     Invalid location, try again...'
-            print ' '
-            print ' '
             polygon_location_flag = 1
             settings_params = default_settings_params
             vertex_points = default_vertex_points
+            print ' '
+            print '     Invalid location, try again...'
+            print ' '
+            print '     (Press any key to continue)'
+            resp = raw_input()
+            print ' '
 
 #   Write new value of Polygon_Location to "Settings_File.txt"
 
