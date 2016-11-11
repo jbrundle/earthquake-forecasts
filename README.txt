@@ -37,9 +37,9 @@
     earthquakes, a Poisson distribution with the same mean as the statistics, and
     a thermometer representation of the current value of EPS.
 
-9.  histogram_eps_region_circle.py:  is a method to plot the cumulative distribution function for
-    regional earthquake cycles and the Earthquake Potential Score within a circular region, 
-    the histogram (bins) of small     earthquakes between large earthquakes, a Poisson 
+9.  histogram_eps_region_polygon.py:  is a method to plot the cumulative distribution function for
+    regional earthquake cycles and the Earthquake Potential Score within a polygonal region, 
+    the histogram (bins) of small earthquakes between large earthquakes, a Poisson 
     distribution with the same mean as the statistics, and a thermometer representation
     of the current value of EPS within the circular region.
 
@@ -48,7 +48,9 @@
 
     [ Location Name (string), S-most Lat (float), N-most Lat (float), W-most Lng (float), E-most Lng (float) ]
 
-11. circlelocations.txt:  is a csv file containing the pre-defined circular regions, with a label.
+11.  EQUtilities.py:  Is a set of methods that fit lines and curves to data, among other functions
+
+12. circlelocations.txt:  is a csv file containing the pre-defined circular regions, with a label.
     The default is None.  Each line of the file has the format:
 
     [ Location Name (string), Latitude of circle center in deg (float), Longitude of circle center in deg (float), Radius of circle in km (float) ]
@@ -57,11 +59,20 @@
 
     If this file does not exist, you must create it with at least 1 line of data.
 
+13. polygonlocations.txt:  is a csv file containing the pre-defined polygonal regions, with a label.
+    The default is None.  Each line of the file has the format:
+
+    [ Location Name (string), then pairs of Latitude, Longitude points defining the vertices of the polygonal region, as many pairs as you like ]
+
+    To enter more pre-defined locations, edit this file with a text editor.
+
+    If this file does not exist, you must create it with at least 1 line of data.
+
+
     *** Note that  an http error 500 will occur if values are entered that include a Lng or Lat of 0.0 ***
     *** Also, there should be no empty lines at the bottom of the location file.  If there are, you will
         see an error: "IndexError: index 1 is out of bounds for axis 0 with size 1"
 
-9.  EQUtilities.py:  Is a set of methods that fit lines and curves to data, among other functions
 
 PYTHON RELATED PACKAGES INSTALLED ON MY MAC VIA MACPORTS:
 
