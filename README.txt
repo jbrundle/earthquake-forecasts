@@ -43,26 +43,36 @@
     distribution with the same mean as the statistics, and a thermometer representation
     of the current value of EPS within the circular region.
 
-10. locations.txt:  is a csv file containing pre-defined map boundaries with a label.
+10. plot_proxy_strain_vs_time_circle.py:  is a method to plot the “proxy strain” within the 
+    circular region.  The proxy strain is just the accumulated count of small earthquakes
+    since the last large earthquake.
+
+11. plot_proxy_strain_vs_time_region.py:  is a method to plot the “proxy strain” within the
+    large region.  The proxy strain is just the accumulated count of small earthquakes
+    since the last large earthquake. 
+
+12. locations.txt:  is a csv file containing pre-defined map boundaries with a label.
     The default is California.  Each line of the file has the format:
 
     [ Location Name (string), S-most Lat (float), N-most Lat (float), W-most Lng (float), E-most Lng (float) ]
 
-11.  EQUtilities.py:  Is a set of methods that fit lines and curves to data, among other functions
+13.  EQUtilities.py:  Is a set of methods that fit lines and curves to data, among other functions
 
-12. circlelocations.txt:  is a csv file containing the pre-defined circular regions, with a label.
+14. circlelocations.txt:  is a csv file containing the pre-defined circular regions, with a label.
     The default is None.  Each line of the file has the format:
 
-    [ Location Name (string), Latitude of circle center in deg (float), Longitude of circle center in deg (float), Radius of circle in km (float) ]
+    [ Location Name (string), Latitude of circle center in deg (float), Longitude of circle center in deg (float), 
+	Radius of circle in km (float) ]
 
     To enter more pre-defined locations, edit this file with a text editor.
 
     If this file does not exist, you must create it with at least 1 line of data.
 
-13. polygonlocations.txt:  is a csv file containing the pre-defined polygonal regions, with a label.
+15. polygonlocations.txt:  is a csv file containing the pre-defined polygonal regions, with a label.
     The default is None.  Each line of the file has the format:
 
-    [ Location Name (string), then pairs of Latitude, Longitude points defining the vertices of the polygonal region, as many pairs as you like ]
+    [ Location Name (string), then pairs of Latitude, Longitude points defining the vertices of the 
+	polygonal region, as many pairs as you like ]
 
     To enter more pre-defined locations, edit this file with a text editor.
 
@@ -81,9 +91,15 @@ py27-matplotlib:            py27-matplotlib @1.4.2 (python, graphics, math) Matp
 py27-matplotlib-basemap:    py27-matplotlib-basemap @1.0.7_1 (python, graphics, math) Matplotlib toolkit for plotting data on map projections
 py27-pil:                   py27-pil @1.1.7_7 (python, graphics)  Python Imaging Library
 
-Note:  A bug in python sometimes leads to the appearance of files with names such as .goutputstream*  These can be removed using the command sudo rm .goutputstream* -v
+Note:  A bug in python sometimes leads to the appearance of files with names such as .goutputstream*  These can be 
+	removed using the command sudo rm .goutputstream* -v
 
 CHANGE LOG:  
+
+New Features in Version 1.17:  
+
+-   Added several new features including proxy strain, and the ability to nowcast within both circular and polygonal regions.  
+ 	The proxy strain is just the accumulated count of small earthquakes since the last large earthquake.
 
 New Features in Version 1.10:
 
